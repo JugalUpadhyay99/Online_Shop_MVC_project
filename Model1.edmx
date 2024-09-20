@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EcommercedataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nchar" MaxLength="100" />
+          <Property Name="LastName" Type="nchar" MaxLength="100" />
+          <Property Name="Username" Type="nchar" MaxLength="25" />
+          <Property Name="Password" Type="nchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Brandtable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandName" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Categorytable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Producttable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar(max)" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="BrandId" Type="int" Nullable="false" />
+          <Property Name="Qty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Images" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK__Productta__Brand__3F466844">
+          <End Role="Brandtable" Type="Self.Brandtable" Multiplicity="1" />
+          <End Role="Producttable" Type="Self.Producttable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brandtable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Producttable">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Productta__Categ__3E52440B">
+          <End Role="Categorytable" Type="Self.Categorytable" Multiplicity="1" />
+          <End Role="Producttable" Type="Self.Producttable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorytable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Producttable">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EcommercedataModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Brandtable" EntityType="Self.Brandtable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categorytable" EntityType="Self.Categorytable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producttable" EntityType="Self.Producttable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Productta__Brand__3F466844" Association="Self.FK__Productta__Brand__3F466844">
+            <End Role="Brandtable" EntitySet="Brandtable" />
+            <End Role="Producttable" EntitySet="Producttable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Productta__Categ__3E52440B" Association="Self.FK__Productta__Categ__3E52440B">
+            <End Role="Categorytable" EntitySet="Categorytable" />
+            <End Role="Producttable" EntitySet="Producttable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EcommercedataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Brandtable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Producttables" Relationship="Self.FK__Productta__Brand__3F466844" FromRole="Brandtable" ToRole="Producttable" />
+        </EntityType>
+        <EntityType Name="Categorytable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Producttables" Relationship="Self.FK__Productta__Categ__3E52440B" FromRole="Categorytable" ToRole="Producttable" />
+        </EntityType>
+        <EntityType Name="Producttable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="BrandId" Type="Int32" Nullable="false" />
+          <Property Name="Qty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Brandtable" Relationship="Self.FK__Productta__Brand__3F466844" FromRole="Producttable" ToRole="Brandtable" />
+          <NavigationProperty Name="Categorytable" Relationship="Self.FK__Productta__Categ__3E52440B" FromRole="Producttable" ToRole="Categorytable" />
+          <Property Name="Images" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK__Productta__Brand__3F466844">
+          <End Role="Brandtable" Type="Self.Brandtable" Multiplicity="1" />
+          <End Role="Producttable" Type="Self.Producttable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brandtable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Producttable">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Productta__Categ__3E52440B">
+          <End Role="Categorytable" Type="Self.Categorytable" Multiplicity="1" />
+          <End Role="Producttable" Type="Self.Producttable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorytable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Producttable">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EcommercedataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Brandtables" EntityType="Self.Brandtable" />
+          <EntitySet Name="Categorytables" EntityType="Self.Categorytable" />
+          <EntitySet Name="Producttables" EntityType="Self.Producttable" />
+          <AssociationSet Name="FK__Productta__Brand__3F466844" Association="Self.FK__Productta__Brand__3F466844">
+            <End Role="Brandtable" EntitySet="Brandtables" />
+            <End Role="Producttable" EntitySet="Producttables" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Productta__Categ__3E52440B" Association="Self.FK__Productta__Categ__3E52440B">
+            <End Role="Categorytable" EntitySet="Categorytables" />
+            <End Role="Producttable" EntitySet="Producttables" />
+          </AssociationSet>
+          <EntitySet Name="Accounts" EntityType="EcommercedataModel.Account" />
+        </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Username" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EcommercedataModelStoreContainer" CdmEntityContainer="EcommercedataEntities">
+          <EntitySetMapping Name="Brandtables">
+            <EntityTypeMapping TypeName="EcommercedataModel.Brandtable">
+              <MappingFragment StoreEntitySet="Brandtable">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categorytables">
+            <EntityTypeMapping TypeName="EcommercedataModel.Categorytable">
+              <MappingFragment StoreEntitySet="Categorytable">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producttables">
+            <EntityTypeMapping TypeName="EcommercedataModel.Producttable">
+              <MappingFragment StoreEntitySet="Producttable">
+                <ScalarProperty Name="Images" ColumnName="Images" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="EcommercedataModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
